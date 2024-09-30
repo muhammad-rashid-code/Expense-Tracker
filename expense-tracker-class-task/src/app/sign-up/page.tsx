@@ -10,9 +10,19 @@ import { useState } from "react";
 export default function LoginUserFunc() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState<string>("");
   return (
     <>
       <h1>Sign Up Here</h1>
+      <label htmlFor="userName">User Name:</label>
+      <input
+        type="text"
+        id="userName"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+      />
+      <br />
+      <br />
       <label htmlFor="email">Email:</label>
       <input
         type="email"
@@ -34,7 +44,7 @@ export default function LoginUserFunc() {
       <ButtonComp
         btnLabel={"Sign up"}
         btnHandler={() => {
-          serviceSignUpUser({ email, password });
+          serviceSignUpUser({ email, password, userName });
         }}
       />
       <p>

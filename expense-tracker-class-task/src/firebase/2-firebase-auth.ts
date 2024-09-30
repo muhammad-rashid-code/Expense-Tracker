@@ -1,3 +1,4 @@
+// src/firebase/2-firebase-auth.ts
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -6,16 +7,24 @@ import {
   signOut,
 } from "firebase/auth";
 import { app } from "./1-firebase-config";
+import { serviceSaveUserFs } from "./3-firebase-cloudfirestore";
 
 // filePath src/firebase/1-firebase-auth.ts
 export const auth = getAuth(app);
 
-type ServiceSignUpUserType = { email: string; password: string };
+type ServiceSignUpUserType = {
+  email: string;
+  password: string;
+  userName: string;
+};
 export function serviceSignUpUser(userSu: ServiceSignUpUserType) {
+  const { userName } = userSu;
   createUserWithEmailAndPassword(auth, userSu.email, userSu.password)
     .then((userCredential) => {
       const user = userCredential.user;
       console.log("userSu=>", user, userCredential);
+      const { email, emailVerified, uid } = userCredential.user;
+      serviceSaveUserFs({ email: email as string, userName, uid });
       if (auth.currentUser) {
         sendEmailVerification(auth.currentUser)
           .then(() => {

@@ -4,6 +4,7 @@
 import ButtonComp from "@/components/button-comp";
 import { AuthContextExport } from "@/context/1-auth-context";
 import { serviceSignOut } from "@/firebase/2-firebase-auth";
+import Link from "next/link";
 
 export default function Home() {
   const { user } = AuthContextExport()!;
@@ -22,6 +23,12 @@ export default function Home() {
           <span style={{ backgroundColor: "rgb(225 229 233)" }}>
             {user.email?.split("@")[0] || "User"}
           </span>
+          <p>
+            <>
+              {" "}
+              <Link href={"manage-expense"}>Mange Expense</Link>
+            </>
+          </p>
         </h1>
       ) : (
         <></>
