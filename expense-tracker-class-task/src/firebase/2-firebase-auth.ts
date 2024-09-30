@@ -1,71 +1,63 @@
+// src/firebase/2-firebase-auth.ts
+import { auth } from "./1-firebase-config"; // Ensure this is the correct import
+import { app } from "./1-firebase-config"; // Import the app from firebase config
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { app } from "./1-firebase-config";
+import { serviceSaveUser } from "./3-firebase-cloudfirestore";
+import { db } from "./1-firebase-config"; // Ensure Firestore is imported
+import { collection, getDocs, query, where, doc, setDoc, deleteDoc } from "firebase/firestore";
 
-// filePath src/firebase/1-firebase-auth.ts
-export const auth = getAuth(app);
+// Initialize Auth
+// No need to initialize here again; use imported `auth`
 
-type ServiceSignUpUserType = { email: string; password: string };
-export function serviceSignUpUser(userSu: ServiceSignUpUserType) {
-  createUserWithEmailAndPassword(auth, userSu.email, userSu.password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("userSu=>", user, userCredential);
-      if (auth.currentUser) {
-        sendEmailVerification(auth.currentUser)
-          .then(() => {
-            console.log("VEmail=> inside serviceSignUpUser");
-          })
-          .catch((error) => {
-            console.log(" Error VEmail=> inside serviceSignUpUser =>", error);
-          });
-      }
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      const errorCode = error.code;
-      console.log("errorCode=>", errorCode, "errorMessage=>", errorMessage);
-    });
+// Function to sign up a user
+type ServiceSignUpUserType = {
+  email: string;
+  password: string;
+  userName: string;
+};
+
+export async function serviceSignUpUser({ email, password, userName }: ServiceSignUpUserType) {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const uid = userCredential.user.uid;
+  await serviceSaveUser({ email, userName, uid });
+
+  // Send email verification
+  await sendEmailVerification(auth.currentUser!);
 }
 
-type ServiceSignInUserType = { email: string; password: string };
-export function serviceSignInUser(userSi: ServiceSignInUserType) {
-  signInWithEmailAndPassword(auth, userSi.email, userSi.password)
-    .then((userCredential) => {
-      const userSi = userCredential.user;
-      console.log("userSi=>", userSi);
-    })
-    .catch((error) => {
-      console.log("errorSi=>", error);
-    });
+// Function to sign in a user
+export async function serviceSignInUser(email: string, password: string) {
+  await signInWithEmailAndPassword(auth, email, password);
 }
 
+// Function to sign out a user
 export function serviceSignOut() {
-  signOut(auth)
-    .then(() => {
-      console.log("User LoggedOut");
-    })
-    .catch((error) => {
-      console.log("Error User LoggedOut=>", error);
-    });
+  return signOut(auth);
 }
 
-export function serviceSendEmailVerification() {
+// Function to send email verification
+export async function serviceSendEmailVerification() {
   if (auth.currentUser) {
-    sendEmailVerification(auth.currentUser)
-      .then(() => {
-        console.log("VEmail=> inside serviceSendEmailVerification");
-      })
-      .catch((error) => {
-        console.log(
-          " Error VEmail=> inside serviceSendEmailVerification =>",
-          error
-        );
-      });
+    await sendEmailVerification(auth.currentUser);
   }
 }
+
+// Function to get user expenses
+export async function serviceGetExpenses(uid: string) {
+  const expensesRef = collection(db, "Expenses");
+  const q = query(expensesRef, where("userId", "==", uid));
+  const querySnapshot = await getDocs(q);
+  
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+}
+
+// Other expense-related functions...
+

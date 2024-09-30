@@ -1,4 +1,4 @@
-// filePath src/app/page.tsx
+// src/app/page.tsx
 "use client";
 
 import ButtonComp from "@/components/button-comp";
@@ -6,12 +6,17 @@ import { serviceSignInUser } from "@/firebase/2-firebase-auth";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function LoginUserFunc() {
+export default function HomePage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSignIn = () => {
+    serviceSignInUser({ email, password });
+  };
+
   return (
     <>
-      <h1>Sign In Here</h1>
+      <h1>Sign In</h1>
       <label htmlFor="email">Email:</label>
       <input
         type="email"
@@ -31,13 +36,11 @@ export default function LoginUserFunc() {
       <br />
       <br />
       <ButtonComp
-        btnLabel={"Sign in"}
-        btnHandler={() => {
-          serviceSignInUser({ email, password });
-        }}
+        btnLabel={"Sign In"}
+        btnHandler={handleSignIn}
       />
       <p>
-        <Link href={"sign-up"}>Sign up</Link> If you don't have an account.
+        <Link href="/sign-up">Create an account</Link>
       </p>
     </>
   );
