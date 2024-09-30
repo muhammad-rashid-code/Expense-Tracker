@@ -1,3 +1,4 @@
+//  filePath src/firebase/1-firebase-config.ts
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
