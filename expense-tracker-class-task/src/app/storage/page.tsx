@@ -9,7 +9,7 @@ export default function UploadImg() {
   const [file, setFiles] = useState<File>();
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
-  const [imageURL, setImageURL] = useState();
+  const [imageURL, setImageURL] = useState("");
   const uploadHandler = async () => {
     if (!file) {
       setErrorMsg("Choose file first");
@@ -66,6 +66,7 @@ export default function UploadImg() {
         }}
       />
       <p>{errorMsg}</p>
+      <p>progress{progress}</p>
       <br />
       <br />
       <ButtonComp btnLabel={"UploadImage"} btnHandler={uploadHandler} />
