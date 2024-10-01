@@ -4,6 +4,7 @@
 import ButtonComp from "@/components/button-comp";
 import { AuthContextExport } from "@/context/1-auth-context";
 import { serviceSignOut } from "@/firebase/2-firebase-auth";
+import Link from "next/link";
 
 export default function Home() {
   const { user } = AuthContextExport()!;
@@ -32,6 +33,7 @@ export default function Home() {
           serviceSignOut();
         }}
       />
+      <Link href={"storage"}>Storage</Link>
     </>
   );
 }
