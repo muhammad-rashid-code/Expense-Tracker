@@ -1,5 +1,6 @@
 //  filePath src/firebase/1-firebase-config.ts
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_apiKey,
@@ -10,3 +11,4 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_appId,
 };
 export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
