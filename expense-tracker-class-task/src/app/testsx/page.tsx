@@ -51,8 +51,7 @@ export default function CloudFire() {
     fetchCities();
   }, []);
 
-  const btnHandler = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+  const btnHandler = async () => {
     const citiesRef = collection(db, "cities");
     const cityId = useManualId && manualId ? manualId : doc(citiesRef).id; // Use manual ID if provided
 
@@ -115,56 +114,8 @@ export default function CloudFire() {
 
   return (
     <>
-      <style>
-        {`
-      form {
-        margin-bottom: 20px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-      }
-      input[type="text"],
-      input[type="number"],
-      input[type="checkbox"] {
-        display: block;
-        margin-bottom: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 100%;
-      }
-      button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-      }
-      button:hover {
-        background-color: #0056b3;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      th, td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      tr:hover {
-        background-color: #f1f1f1;
-      }
-    `}
-      </style>
       <h1>himmat e mardan</h1>
-      <form onSubmit={btnHandler}>
+      <div>
         <label>
           <input
             type="checkbox"
@@ -237,13 +188,13 @@ export default function CloudFire() {
           onChange={(e) => setRegions(e.target.value)}
         />
         <br />
-        <button type="submit">
+        <button type="button" onClick={btnHandler}>
           {editingCityId ? "Update City" : "Add City"}
         </button>
         <button type="button" onClick={resetForm}>
           Cancel
         </button>
-      </form>
+      </div>
 
       <h2>Cities List</h2>
       <table>
