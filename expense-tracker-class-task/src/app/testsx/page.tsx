@@ -51,7 +51,8 @@ export default function CloudFire() {
     fetchCities();
   }, []);
 
-  const btnHandler = async () => {
+  const btnHandler = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent the default form submission behavior
     const citiesRef = collection(db, "cities");
     const cityId = useManualId && manualId ? manualId : doc(citiesRef).id; // Use manual ID if provided
 
@@ -115,7 +116,7 @@ export default function CloudFire() {
   return (
     <>
       <h1>himmat e mardan</h1>
-      <div>
+      <form onSubmit={btnHandler}>
         <label>
           <input
             type="checkbox"
@@ -188,13 +189,13 @@ export default function CloudFire() {
           onChange={(e) => setRegions(e.target.value)}
         />
         <br />
-        <button type="button" onClick={btnHandler}>
+        <button type="submit">
           {editingCityId ? "Update City" : "Add City"}
         </button>
         <button type="button" onClick={resetForm}>
           Cancel
         </button>
-      </div>
+      </form>
 
       <h2>Cities List</h2>
       <table>
