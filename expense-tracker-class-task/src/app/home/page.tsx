@@ -36,6 +36,8 @@ export default function Home() {
       <Link href={"testsx"}>Country Deatails</Link>
       <br />
       <Link href={"my-testsx"}>My next demo</Link>
+      <br />
+      <Link href={"testsx-1"}>testsx-1 Mera</Link>
     </>
   );
 }

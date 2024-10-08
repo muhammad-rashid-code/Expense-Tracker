@@ -115,7 +115,7 @@ export default function CloudFire() {
 
   return (
     <>
-      <h1>himmat e mardan</h1>
+      <h1>Himmat E Mardan</h1>
       <form onSubmit={btnHandler}>
         <label>
           <input
