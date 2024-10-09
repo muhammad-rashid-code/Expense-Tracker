@@ -198,30 +198,30 @@ export default function CloudFire() {
       </form>
 
       <h2>Cities List</h2>
-      <table>
+      <table style={{ border: "1px solid black" }}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>State</th>
-            <th>Country</th>
-            <th>Capital</th>
-            <th>Population</th>
-            <th>Regions</th>
-            <th>Actions</th>
+            <th style={{ border: "1px solid black" }}>ID</th>
+            <th style={{ border: "1px solid black" }}>Name</th>
+            <th style={{ border: "1px solid black" }}>State</th>
+            <th style={{ border: "1px solid black" }}>Country</th>
+            <th style={{ border: "1px solid black" }}>Capital</th>
+            <th style={{ border: "1px solid black" }}>Population</th>
+            <th style={{ border: "1px solid black" }}>Regions</th>
+            <th style={{ border: "1px solid black" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {cities.map((city) => (
             <tr key={city.id}>
-              <td>{city.id}</td>
-              <td>{city.name}</td>
-              <td>{city.state || "N/A"}</td>
-              <td>{city.country}</td>
-              <td>{city.capital ? "Yes" : "No"}</td>
-              <td>{city.population.toLocaleString()}</td>
-              <td>{city.regions.join(", ")}</td>
-              <td>
+              <td style={{ border: "1px solid black" }}>{city.id}</td>
+              <td style={{ border: "1px solid black" }}>{city.name}</td>
+              <td style={{ border: "1px solid black" }}>{city.state || "N/A"}</td>
+              <td style={{ border: "1px solid black" }}>{city.country}</td>
+              <td style={{ border: "1px solid black" }}>{city.capital ? "Yes" : "No"}</td>
+              <td style={{ border: "1px solid black" }}>{city.population.toLocaleString()}</td>
+              <td style={{ border: "1px solid black" }}>{city.regions.join(", ")}</td>
+              <td style={{ border: "1px solid black" }}>
                 <button onClick={() => editCity(city)}>Edit</button>
                 <button onClick={() => deleteCity(city.id)}>Delete</button>
               </td>
